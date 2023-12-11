@@ -1,7 +1,11 @@
 import typer
 from typing_extensions import Annotated
 
+from .commands import cmd_add, cmd_new
+
 app = typer.Typer()
+app.add_typer(cmd_new, name="new", help="Create a new project")
+app.add_typer(cmd_add, name="add", help="Add a package")
 
 
 @app.callback()
