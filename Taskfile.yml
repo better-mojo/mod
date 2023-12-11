@@ -1,0 +1,92 @@
+version: "3"
+
+output: prefixed # = [interleaved, group, prefixed] # ref:
+
+includes:
+  dev:
+    aliases: [ "d" ]
+    taskfile: ./Taskfile.dev.yml
+    dir: ./
+    optional: true
+
+  mod:cli:
+    aliases: [ "cli" ]
+    taskfile: packages/mod-cli
+    dir: packages/mod-cli
+    optional: true
+
+  mod:core:
+    aliases: [ "core" ]
+    taskfile: packages/mod-cli
+    dir: packages/mod-cli
+    optional: true
+
+
+
+################################################################################################
+
+#
+# global vars: https://taskfile.dev/#/usage?id=variables
+#
+vars:
+  VAR1: "some-var"
+
+# global env:
+env:
+  ENV1: testing
+
+# env file:
+dotenv:
+  - .env
+
+################################################################################################
+
+tasks:
+
+  list:
+    aliases: [ "l" ]
+    cmds:
+      - task --list-all
+      - task --list-all | grep dev
+
+  ##################################################################################################
+
+  # usage:
+  #   - task n -- py-try/try-jieba
+  new:
+    aliases: [ "n" ]
+    cmds:
+      - poetry new {{.CLI_ARGS}} --src
+    dir: packages/
+
+  ##################################################################################################
+
+  quick:
+    aliases: [ 'q' ]
+    cmds:
+      - task: cc
+      - task: push
+
+  cc:
+    cmds:
+      - task: commit
+      - task: commit
+
+  commit:
+    aliases: [ 'c' ]
+    cmds:
+      - git add .
+      - git commit -m "update"
+    ignore_error: true
+
+  pull:
+    aliases: [ "down" ]
+    cmds:
+      - git config pull.rebase false
+      - git pull origin main
+
+  push:
+    aliases: [ "up" ]
+    cmds:
+      - git push origin main --tags
+      - repo_url=`git remote -v | grep push | awk -F ":" '{print $2}' | awk -F ".git" '{print "https://github.com/"$1}'`; open $repo_url
