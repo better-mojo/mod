@@ -1,9 +1,10 @@
 version: "3"
 
-output: prefixed # = [interleaved, group, prefixed] # ref:
+output: group # = [interleaved, group, prefixed] # ref:
 
 vars:
   VAR1: "some-var"
+  SRC_DIR: "src/mod_cli"
 
 # global env:
 env:
@@ -13,6 +14,24 @@ env:
 ################################################################################################
 
 tasks:
+  run:
+    aliases: [ "r" ]
+    cmds:
+      - echo "{{.SRC_DIR}}"
+      - poetry run python3 main.py --help
+      - poetry run python3 main.py -n Jim
+    dir: src/mod_cli
+
+  run:all:
+    aliases: [ "ra" ]
+    cmds:
+      - echo "{{.SRC_DIR}}"
+      - poetry run python3 main.py
+      - poetry run python3 main.py --help
+      - poetry run python3 main.py --name Bob
+      - poetry run python3 main.py -n Jim
+    dir: src/mod_cli
+
   install:
     aliases: [ "i" ]
     cmds:
@@ -47,3 +66,15 @@ tasks:
       - poetry --help
       - poetry list
       - poetry env info
+
+
+  config:
+    aliases:
+      - "cfg"
+    cmds:
+      - poetry config virtualenvs.options.no-setuptools false
+
+  debug:
+    cmds:
+      - poetry config --help
+      - poetry config --list

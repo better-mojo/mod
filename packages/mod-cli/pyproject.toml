@@ -6,6 +6,12 @@ authors = ["Henry.Huang <hhglory@outlook.com>"]
 readme = "README.md"
 packages = [{include = "mod_cli", from = "src"}]
 
+
+[tool.poetry.scripts]
+mojo-cli = "mod_cli.main:app"
+mod = "mod_cli.main:app"
+
+
 [tool.poetry.dependencies]
 python = "^3.10"
 loguru = "^0.7.2"

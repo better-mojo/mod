@@ -1,0 +1,4 @@
+[virtualenvs]
+prefer-active-python = true
+in-project = false
+create = false   # todo x: 核心参数， 使用 pyenv 创建的， 不单独创建
