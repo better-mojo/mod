@@ -10,7 +10,7 @@ packages = [{include = "mod_cli", from = "src"}]
 [tool.poetry.scripts]
 mod = "mod_cli.main:app"
 modep = "mod_cli.main:app"  # aliase name
-mojo-cli = "mod_cli.main:app" # aliase name
+mod-cli = "mod_cli.main:app" # aliase name
 
 [tool.poetry.dependencies]
 python = "^3.10"

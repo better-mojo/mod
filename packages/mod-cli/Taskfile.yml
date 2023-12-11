@@ -80,6 +80,15 @@ tasks:
       - poetry list
       - poetry env info
 
+  rel:init:
+    cmds:
+      - echo ${PYPI_TOKEN}
+      - poetry config pypi-token.pypi ${PYPI_TOKEN}
+
+  rel:
+    cmds:
+      - echo ${PYPI_TOKEN}
+      - poetry publish --build
 
   config:
     aliases:
