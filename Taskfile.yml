@@ -10,7 +10,7 @@ includes:
     optional: true
 
   mod:cli:
-    aliases: [ "cli" ]
+    aliases: [ "cli", "m" ]
     taskfile: packages/mod-cli
     dir: packages/mod-cli
     optional: true
@@ -20,7 +20,6 @@ includes:
     taskfile: packages/mod-cli
     dir: packages/mod-cli
     optional: true
-
 
 
 ################################################################################################
@@ -48,6 +47,8 @@ tasks:
     cmds:
       - task --list-all
       - task --list-all | grep dev
+      - task --list-all | grep cli
+      - task --list-all | grep core
 
   ##################################################################################################
 

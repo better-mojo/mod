@@ -1,0 +1,49 @@
+version: "3"
+
+output: prefixed # = [interleaved, group, prefixed] # ref:
+
+vars:
+  VAR1: "some-var"
+
+# global env:
+env:
+  ENV1: testing
+
+
+################################################################################################
+
+tasks:
+  install:
+    aliases: [ "i" ]
+    cmds:
+      - poetry install
+
+  # usage: -- loguru "typer[all]"
+  add:
+    aliases: [ "a" ]
+    cmds:
+      - poetry add {{.CLI_ARGS}}
+
+  add:all:
+    cmds:
+      - poetry add "typer[all]" loguru
+      - poetry add tomlkit rich
+
+  remove:
+    cmds:
+      - poetry remove {{.CLI_ARGS}}
+
+  info:
+    cmds:
+      - task: env
+      - poetry debug info
+
+  env:
+    - poetry env info
+    - poetry env list
+
+  help:
+    cmds:
+      - poetry --help
+      - poetry list
+      - poetry env info

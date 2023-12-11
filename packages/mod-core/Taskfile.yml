@@ -1,0 +1,33 @@
+version: "3"
+
+output: prefixed # = [interleaved, group, prefixed] # ref:
+
+vars:
+  VAR1: "some-var"
+
+# global env:
+env:
+  ENV1: testing
+
+
+################################################################################################
+
+tasks:
+
+  help:
+    cmds:
+      - poetry --help
+
+  add:
+    aliases: [ "a" ]
+    cmds:
+      - poetry add {{.CLI_ARGS}}
+
+  remove:
+    cmds:
+      - poetry remove {{.CLI_ARGS}}
+
+  install:
+    aliases: [ "i" ]
+    cmds:
+      - poetry install
