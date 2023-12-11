@@ -32,10 +32,23 @@ tasks:
       - poetry run python3 main.py -n Jim
     dir: src/mod_cli
 
+  dev:
+    cmds:
+      - poetry shell
+
   install:
     aliases: [ "i" ]
     cmds:
       - poetry install
+
+  build:
+    aliases: [ "b" ]
+    cmds:
+      - poetry build # ref: https://typer.tiangolo.com/tutorial/package/#create-a-wheel-package
+
+
+  ################################################################################################
+
 
   # usage: -- loguru "typer[all]"
   add:

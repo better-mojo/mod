@@ -1,4 +1,5 @@
 import typer
+from typing_extensions import Annotated
 
 app = typer.Typer()
 
@@ -26,7 +27,7 @@ def load():
     typer.echo("Loading portal gun")
 
 
-def main(name: str = typer.Option("World", "-n", "--name")):
+def main(name: Annotated[str, typer.Option("-n", "--name")] = "World"):
     print(f"Hello {name}")
 
 
