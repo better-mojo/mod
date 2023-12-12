@@ -27,5 +27,23 @@ def find_project_dir(path: str = None):
     return root
 
 
+def validate_project_dir(path: str = None):
+    if not path:
+        return False
+
+    if not os.path.exists(path) or not os.path.exists(os.path.abspath(path)):
+        logger.error(f"Project directory not found: {path}")
+        return False
+
+    if (
+        'pyproject.toml' in os.listdir(path)
+        or 'mod.toml' in os.listdir(path)
+        or '.git' in os.listdir(path)
+    ):
+        root = path
+        return True
+    return False
+
+
 def test():
     logger.info(find_project_dir())
