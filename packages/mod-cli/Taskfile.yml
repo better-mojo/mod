@@ -108,3 +108,9 @@ tasks:
     cmds:
       - poetry config --help
       - poetry config --list
+
+  poetry:
+    aliases: [ "p" ]
+    cmds:
+      - poetry {{.CLI_ARGS}}
+
