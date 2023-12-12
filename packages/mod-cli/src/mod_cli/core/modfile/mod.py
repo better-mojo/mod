@@ -5,6 +5,26 @@ from loguru import logger
 from mod_cli.core.dir import validate_project_dir, find_project_dir
 
 
+def pretty_print(kv: dict = None):
+    kv = kv or {}
+    if not isinstance(kv, dict):
+        logger.info(kv)
+        return
+
+    for k, v in kv.items():
+        if isinstance(v, dict):
+            logger.info(f"{k}:")
+            for kk, vv in v.items():
+                logger.info(f"  {kk}: {vv}")
+                if isinstance(vv, dict):
+                    for kkk, vvv in vv.items():
+                        logger.info(f"    {kkk}: {vvv}")
+                else:
+                    logger.info(f"  {kk}: {vv}")
+        else:
+            logger.info(f"{k}: {v}")
+
+
 class ModFile(object):
 
     def __init__(self, project_dir: str = None):
@@ -32,21 +52,7 @@ class ModFile(object):
 
         with open(self.pyproject_toml, "r") as f:
             self.pyproject_data = tomlkit.load(f)
-            self.pretty_print()
-
-    def pretty_print(self):
-        for k, v in self.pyproject_data.items():
-            if isinstance(v, dict):
-                logger.info(f"{k}:")
-                for kk, vv in v.items():
-                    logger.info(f"  {kk}: {vv}")
-                    if isinstance(vv, dict):
-                        for kkk, vvv in vv.items():
-                            logger.info(f"    {kkk}: {vvv}")
-                    else:
-                        logger.info(f"  {kk}: {vv}")
-            else:
-                logger.info(f"{k}: {v}")
+            pretty_print(self.pyproject_data)
 
     def add_package(self):
         pass
