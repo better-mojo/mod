@@ -15,7 +15,7 @@ def exec_git_clone(url: str, branch: str = None, path: str = None):
         cmd += ["-b", branch]
     if not path:
         host, username, repo, url = parse_git_url(url)
-        path = os.path.join(find_project_dir(), "deps", host, username, repo)
+        path = os.path.join(find_project_dir(), "target", "deps", host, username, repo)
     if not os.path.exists(path):
         os.makedirs(path)
     cmd += [url, path]
@@ -35,18 +35,40 @@ def parse_git_url(url: str = None):
     url:
         - https://github.com/MoSafi2/MojoFastTrim
         - https://github.com/MoSafi2/MojoFastTrim.git
+        - git@github.com:MoSafi2/MojoFastTrim.git
     """
     url = url or "https://github.com/MoSafi2/MojoFastTrim"
 
     host = ""
     username = ""
     repo = ""
-    if url.find("github.com"):
-        host = "github.com"
-        url = url.strip(".git")
-        username, repo = url.split("github.com/")[1].split("/")
-        # fmt
-        url = f"https://github.com/{username}/{repo}.git"
+
+    hosts = [
+        "github.com",
+        "gitlab.com",
+        "bitbucket.org",
+    ]
+
+    for h in hosts:
+        if url.lower().find(h):
+            host = h
+            break
+
+    if not host:
+        logger.error(f"Invalid git url: {url}")
+        return host, username, repo, url
+
+    url = url.strip(".git")
+
+    # support 3 types of git url
+    sep = ":" if url.lower().find("@git") != -1 else "/"
+    # logger.info(f"host: {host}, sep: {sep}")
+    username, repo = url.split(f"{host}{sep}")[1].split("/")
+    if not username or not repo:
+        logger.error(f"Invalid git url: {url}")
+
+    # fmt again
+    url = f"https://github.com/{username}/{repo}.git"
 
     logger.info(f"username: {username}, repo: {repo}, url: {url}")
 
@@ -56,6 +78,6 @@ def parse_git_url(url: str = None):
 def test():
     parse_git_url()
     parse_git_url(url="https://github.com/MoSafi2/MojoFastTrim.git")
+    parse_git_url(url="git@github.com:MoSafi2/MojoFastTrim.git")
 
-    git_clone(url="https://github.com/MoSafi2/MojoFastTrim.git")
-
+    # git_clone(url="https://github.com/MoSafi2/MojoFastTrim.git")
