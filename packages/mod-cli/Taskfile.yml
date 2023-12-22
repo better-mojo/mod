@@ -32,9 +32,15 @@ tasks:
       - poetry run python3 main.py -n Jim
     dir: src/mod_cli
 
-  dev:
+  poetry:
+    aliases: [ "p" ]
     cmds:
-      - poetry shell
+      - poetry {{.CLI_ARGS}} # install, update, shell
+
+  mod:
+    aliases: [ "dep" ]
+    cmds:
+      - mod {{.CLI_ARGS}}
 
   install:
     aliases: [ "i" ]
@@ -54,7 +60,7 @@ tasks:
   add:
     aliases: [ "a" ]
     cmds:
-      - poetry add {{.CLI_ARGS}}
+      - poetry add {{.CLI_ARGS}} # --dev
 
   add:all:
     cmds:
@@ -64,15 +70,6 @@ tasks:
   remove:
     cmds:
       - poetry remove {{.CLI_ARGS}}
-
-  info:
-    cmds:
-      - task: env
-      - poetry debug info
-
-  env:
-    - poetry env info
-    - poetry env list
 
   help:
     cmds:
@@ -96,21 +93,3 @@ tasks:
     cmds:
       - open https://pypi.org/project/mod-cli/
       - pip install mod-cli
-
-
-  config:
-    aliases:
-      - "cfg"
-    cmds:
-      - poetry config virtualenvs.options.no-setuptools false
-
-  debug:
-    cmds:
-      - poetry config --help
-      - poetry config --list
-
-  poetry:
-    aliases: [ "p" ]
-    cmds:
-      - poetry {{.CLI_ARGS}}
-
