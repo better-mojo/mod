@@ -1,0 +1,12 @@
+[package]
+name = "{{ project_name }}"
+version = "0.1.0"
+description = "A Mojo Package"
+authors = ["{{ author_name }} <{{ author_email }}>"]
+license = ""
+repository = ""
+edition = "2023"
+mojo-version = "0.6.1"
+
+
+[dependencies]

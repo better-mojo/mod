@@ -4,13 +4,34 @@ from jinja2.loaders import FileSystemLoader
 
 
 class ProjectLayout:
-    pass
+    SOURCE_DIR = "src"
+    MOD_FILE = "mod.toml"
+    MOD_LOCK_FILE = "mod.lock"
+    LIB_FILE = "lib.mojo"
+    BIN_FILE = "main.mojo"
+    INIT_FILE = "__init__.mojo"
+    README_FILE = "README.md"
+    IGNORE_FILE = ".gitignore"
 
-    def __init__(self):
-        self.f_mod = None
-        self.f_readme = None
-        self.f_lib = None
-        self.f_bin = None
+    def __init__(self, search_path: str = "../../templates"):
+        self.env = Environment(loader=FileSystemLoader("../../templates"))
+
+    def render_mod_file(
+        self,
+        project_name,
+        author_name="your_name",
+        author_email="you@email.com",
+    ):
+        f = self.env.get_template(self.MOD_FILE).render(
+            project_name=project_name,
+            author_name=author_name,
+            author_email=author_email,
+        )
+        logger.info(f"mod.toml: {f}")
+
+    def render_bin_file(self, project_name):
+        f = self.env.get_template(self.BIN_FILE).render()
+        logger.info(f"bin.mojo: {f}")
 
     def load_template(self):
         pass
@@ -30,4 +51,7 @@ def read_template():
 
 
 def test():
-    read_template()
+    # read_template()
+
+    pl = ProjectLayout()
+    pl.render_mod_file("demo")
