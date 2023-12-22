@@ -1,6 +1,6 @@
-from loguru import logger
 from jinja2 import Environment
 from jinja2.loaders import FileSystemLoader
+from loguru import logger
 
 
 class ProjectLayout:
