@@ -29,9 +29,20 @@ class ProjectLayout:
         )
         logger.info(f"mod.toml: {f}")
 
-    def render_bin_file(self, project_name):
+    def render_bin_file(self):
         f = self.env.get_template(self.BIN_FILE).render()
         logger.info(f"bin.mojo: {f}")
+
+    def render_lib_file(self):
+        f = self.env.get_template(self.LIB_FILE).render()
+        logger.info(f"lib.mojo: {f}")
+
+    def render_readme_file(self, project_name, project_type="bin"):
+        f = self.env.get_template(self.README_FILE).render(
+            project_name=project_name,
+            project_type="binary application" if project_type == "bin" else "library",
+        )
+        logger.info(f"README.md: {f}")
 
     def load_template(self):
         pass
@@ -55,3 +66,7 @@ def test():
 
     pl = ProjectLayout()
     pl.render_mod_file("demo")
+    pl.render_lib_file()
+    pl.render_bin_file()
+    pl.render_readme_file("demo-bin", "bin")
+    pl.render_readme_file("demo-lib", "lib")
