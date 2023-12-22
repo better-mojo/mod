@@ -11,6 +11,7 @@ class ProjectLayout:
     BIN_FILE = "main.mojo"
     INIT_FILE = "__init__.mojo"
     README_FILE = "README.md"
+    TASK_FILE = "Taskfile.yml"
     IGNORE_FILE = ".gitignore"
 
     def __init__(self, search_path: str = "../../templates"):
@@ -44,6 +45,14 @@ class ProjectLayout:
         )
         logger.info(f"README.md: {f}")
 
+    def render_init_file(self):
+        f = self.env.get_template(self.INIT_FILE).render()
+        logger.info(f"__init__.mojo: {f}")
+
+    def render_task_file(self):
+        f = self.env.get_or_select_template(self.TASK_FILE).render()
+        logger.info(f"Taskfile.yml: {f}")
+
     def load_template(self):
         pass
 
@@ -70,3 +79,5 @@ def test():
     pl.render_bin_file()
     pl.render_readme_file("demo-bin", "bin")
     pl.render_readme_file("demo-lib", "lib")
+    pl.render_init_file()
+    pl.render_task_file()
