@@ -1,6 +1,7 @@
 import os
 from enum import Enum
 from pathlib import Path
+from typing import Optional
 
 import typer
 from loguru import logger
@@ -8,16 +9,35 @@ from typing_extensions import Annotated
 
 from mod_cli.commands import cmd_add
 
-app = typer.Typer()
+__version__ = "0.1.1"
+
+app = typer.Typer(
+    help="Awesome Mojo Package Manager",
+    no_args_is_help=True,
+)
 
 # app.add_typer(cmd_new, help="Create a new project")
 app.add_typer(cmd_add, help="Add a package")
 
 
-@app.callback()
-def callback():
+def version_callback(value: bool):
+    if value:
+        print(f"Mod(Mojo Dep) CLI Version: {__version__}")
+        raise typer.Exit()
+
+
+# todo x: add global --options
+@app.callback(short_help="-h")
+def main(
+    version: Annotated[
+        Optional[bool],
+        typer.Option(
+            "--version", "-v", callback=version_callback, help="Show the version"
+        ),
+    ] = None,
+):
     """
-    Awesome Portal Gun
+    Awesome Mojo Package Manager
     """
 
 
