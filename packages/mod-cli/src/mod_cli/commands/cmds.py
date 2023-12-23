@@ -7,7 +7,8 @@ import typer
 from loguru import logger
 from typing_extensions import Annotated
 
-from mod_cli.commands import cmd_add
+from mod_cli.commands.add import cmd_add
+from mod_cli.commands.hack import cmd_hack
 
 __version__ = "0.1.1"
 
@@ -17,7 +18,15 @@ app = typer.Typer(
 )
 
 # app.add_typer(cmd_new, help="Create a new project")
-app.add_typer(cmd_add, help="Add a package")
+app.add_typer(cmd_add, name="add")
+app.add_typer(cmd_hack, name="hack")
+
+
+def init_app():
+    # app.add_typer(cmd_new, help="Create a new project")
+    app.add_typer(cmd_add, help="Add a package")
+    app.add_typer(cmd_hack)
+    return app
 
 
 def version_callback(value: bool):
@@ -56,8 +65,8 @@ def is_valid_directory(path):
     return re.match(pattern, path) is not None
 
 
-@app.command(help="Create a new project: [--bin, --lib]")
-def new(
+@app.command("new", help="Create a new project: [--bin, --lib]")
+def new_project(
     project_name: Annotated[
         Path, typer.Argument(metavar="path", help="The path to create the project at.")
     ],
@@ -99,17 +108,50 @@ def new(
     # 判断 project_name 是不是路径(相对路径和绝对路径)
 
 
-@app.command()
-def shoot():
+@app.command("install", help="Install dependencies")
+def install_deps():
     """
-    Shoot the portal gun
+    Install dependencies
     """
-    typer.echo("Shooting portal gun")
+    typer.echo(f"Install dependencies")
 
 
 @app.command()
-def load():
+def build():
     """
-    Load the portal gun
+    Build the project
     """
-    typer.echo("Loading portal gun")
+    typer.echo("Building the project")
+
+
+@app.command("init")
+def init_project():
+    """
+    Init the old project
+    """
+    typer.echo("init the old project")
+
+
+@app.command("env", help="Environment information")
+def env_info():
+    typer.echo("Environment information")
+
+
+@app.command(help="Doctor")
+def doctor():
+    typer.echo("fix env")
+
+
+@app.command(help="Mojo workspace(monorepo)")
+def workspace():
+    typer.echo("Mojo workspace(monorepo)")
+
+
+@app.command(help="Doctor")
+def doctor():
+    typer.echo("fix env")
+
+
+@app.command(help="Doctor")
+def doctor():
+    typer.echo("fix env")

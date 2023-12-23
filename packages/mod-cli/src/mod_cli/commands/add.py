@@ -1,6 +1,6 @@
 import typer
 
-cmd_add = typer.Typer()
+cmd_add = typer.Typer(help="Add a package")
 
 
 @cmd_add.command()
