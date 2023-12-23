@@ -85,8 +85,8 @@ tasks:
   rel:
     cmds:
       - echo ${PYPI_TOKEN}
-      - poetry publish --build --dry-run --verbose
-      - poetry publish --build --verbose
+      - poetry publish --build --dry-run
+      - poetry publish --build
 
   rel:check:
     aliases: [ 'rc' ]
