@@ -65,6 +65,11 @@ poetry add mod-cli --dev
         - `mod workspace list`: 列出工作区
         - `mod workspace add`: 添加工作区
         - `mod workspace remove`: 移除工作区
+    - `mod ext(x)`: `mod` 扩展(插件支持)
+        - `mod ext add`: 添加 `mod` 扩展到 `mod.toml`
+        - `mod ext remove`: 移除 `mod` 扩展
+        - `mod ext install`: 安装 `mod` 扩展
+        - `mod ext uninstall`: 卸载 `mod` 扩展
     - `mod self`: 自身管理
         - `mod self update`: 更新 `mod` 自身
     - `mod help`: 帮助
