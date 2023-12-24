@@ -86,6 +86,7 @@ tasks:
       - echo ${PYPI_TOKEN}
       - poetry publish --build --dry-run
       - poetry publish --build
+      - open https://pypi.org/project/mod-cli/
 
   rel:check:
     aliases: [ 'rc' ]
