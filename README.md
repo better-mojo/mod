@@ -42,6 +42,12 @@ mod new your/path/to/project --bin
 ...
 ```
 
-![](./docs/mod-new.jpg)
+- `mod new --bin`
+
+![](./docs/mod-new-bin.png)
+
+- `mod new --lib`
+
+![](./docs/mod-new-lib.png)
 
 
