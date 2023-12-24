@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "mod-cli"
-version = "0.1.1"
+version = "0.1.2"
 description = "a CLI Tool for Mojo Package Manager"
 authors = ["Henry.Huang <hhglory@outlook.com>"]
 readme = "README.md"

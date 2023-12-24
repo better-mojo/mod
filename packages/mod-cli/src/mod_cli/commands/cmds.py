@@ -10,7 +10,7 @@ from typing_extensions import Annotated
 from mod_cli.commands.add import cmd_add
 from mod_cli.commands.hack import cmd_hack
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 app = typer.Typer(
     help="Awesome Mojo Package Manager",
