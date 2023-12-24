@@ -14,28 +14,29 @@ from mod_cli.commands.workspace import cmd_workspace
 __version__ = "0.1.2"
 
 
-app = typer.Typer(
-    help="Awesome Mojo Package Manager",
-    no_args_is_help=True,
-)
-
-# app.add_typer(cmd_new, help="Create a new project")
-app.add_typer(cmd_add, name="add")
-app.add_typer(cmd_hack, name="hack")
-app.add_typer(cmd_workspace, name="workspace")
-
-
-def init_app():
-    # app.add_typer(cmd_new, help="Create a new project")
-    app.add_typer(cmd_add, help="Add a package")
-    app.add_typer(cmd_hack)
-    return app
+class AppPanelType(str, Enum):
+    cmds = "🔥 Commands"
+    project = "Management Commands"
+    development = "Development Commands"
+    environment = "Environment Commands"
 
 
 def version_callback(value: bool):
     if value:
         print(f"Mod(Mojo Dep) CLI Version: {__version__}")
         raise typer.Exit()
+
+
+app = typer.Typer(
+    help=f"Mod({__version__}) - Awesome Mojo Package Manager",
+    no_args_is_help=True,
+    name="Mod",
+)
+
+# app.add_typer(cmd_new, help="Create a new project")
+app.add_typer(cmd_add, name="add", rich_help_panel=AppPanelType.development)
+app.add_typer(cmd_hack, name="hack", rich_help_panel=AppPanelType.development)
+app.add_typer(cmd_workspace, name="workspace", rich_help_panel=AppPanelType.project)
 
 
 # todo x: add global --options
@@ -68,7 +69,11 @@ def is_valid_directory(path):
     return re.match(pattern, path) is not None
 
 
-@app.command("new", help="Create a new project: [--bin, --lib]")
+@app.command(
+    "new",
+    help="Create a new project: [--bin, --lib]",
+    rich_help_panel=AppPanelType.project,
+)
 def new_project(
     project_name: Annotated[
         Path, typer.Argument(metavar="path", help="The path to create the project at.")
@@ -111,7 +116,11 @@ def new_project(
     # 判断 project_name 是不是路径(相对路径和绝对路径)
 
 
-@app.command("install", help="Install dependencies")
+@app.command(
+    "install",
+    help="Install dependencies",
+    rich_help_panel=AppPanelType.development,
+)
 def install_deps():
     """
     Install dependencies
@@ -119,7 +128,9 @@ def install_deps():
     typer.echo(f"Install dependencies")
 
 
-@app.command()
+@app.command(
+    rich_help_panel=AppPanelType.development,
+)
 def build():
     """
     Build the project
@@ -127,7 +138,10 @@ def build():
     typer.echo("Building the project")
 
 
-@app.command("init")
+@app.command(
+    "init",
+    rich_help_panel=AppPanelType.project,
+)
 def init_project():
     """
     Init the old project
@@ -145,16 +159,10 @@ def doctor():
     typer.echo("fix env")
 
 
-@app.command(help="Mojo workspace(monorepo)")
-def workspace():
-    typer.echo("Mojo workspace(monorepo)")
-
-
-@app.command(help="Doctor")
-def doctor():
-    typer.echo("fix env")
-
-
-@app.command(help="Doctor")
-def doctor():
-    typer.echo("fix env")
+@app.command(
+    "remove",
+    help="Remove dependencies",
+    rich_help_panel=AppPanelType.development,
+)
+def remove_dep():
+    typer.echo("Remove dependencies")

@@ -18,7 +18,6 @@ tasks:
     aliases: [ "r" ]
     cmds:
       - echo "{{.SRC_DIR}}"
-      - poetry run python3 main.py --help
       - poetry run python3 main.py {{.CLI_ARGS}}
     dir: src/mod_cli
 
