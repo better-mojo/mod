@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from jinja2 import Environment
 from jinja2.loaders import FileSystemLoader
 from loguru import logger
@@ -56,8 +58,68 @@ class ProjectLayout:
     def load_template(self):
         pass
 
-    def write(self):
-        pass
+    def write(self, root_dir: Path | str, project_name: str, project_type: str = "bin"):
+        root = Path(root_dir)
+        src_dir = root / self.SOURCE_DIR
+        f_mod = root / self.MOD_FILE
+        f_readme = root / self.README_FILE
+        f_task = root / self.TASK_FILE
+        f_init = src_dir / self.INIT_FILE
+        f_code = src_dir / (
+            self.BIN_FILE if project_type.lower() == "bin" else self.LIB_FILE
+        )
+
+        if not src_dir.exists():
+            src_dir.mkdir(parents=True)
+
+        # write mod.toml
+        with open(f_mod, "w") as f:
+            f.write(
+                self.env.get_template(self.MOD_FILE).render(
+                    project_name=project_name,
+                    author_name="your_name",
+                    author_email="you@email.com",
+                )
+            )
+
+        with open(f_init, "w") as f:
+            f.write(self.env.get_template(self.INIT_FILE).render())
+
+        # write readme
+        with open(f_readme, "w") as f:
+            f.write(
+                self.env.get_template(self.README_FILE).render(
+                    project_name=project_name,
+                    project_type="binary application"
+                    if project_type == "bin"
+                    else "library",
+                )
+            )
+
+        # write task
+        with open(f_task, "w") as f:
+            f.write(self.env.get_or_select_template(self.TASK_FILE).render())
+
+        # write code
+        with open(f_code, "w") as f:
+            f.write(
+                self.env.get_template(
+                    self.BIN_FILE if project_type.lower() == "bin" else self.LIB_FILE
+                ).render()
+            )
+
+        with open(f_init, "w") as f:
+            f.write(self.env.get_template(self.INIT_FILE).render())
+
+        with open(f_readme, "w") as f:
+            f.write(
+                self.env.get_template(self.README_FILE).render(
+                    project_name=project_name,
+                    project_type="binary application"
+                    if project_type == "bin"
+                    else "library",
+                ),
+            )
 
 
 def read_template():
@@ -81,3 +143,5 @@ def test():
     pl.render_readme_file("demo-lib", "lib")
     pl.render_init_file()
     pl.render_task_file()
+
+    pl.write("tmp/demo", "demo", "bin")

@@ -11,7 +11,7 @@ from mod_cli.commands.add import cmd_add
 from mod_cli.commands.hack import cmd_hack
 from mod_cli.commands.workspace import cmd_workspace
 
-__version__ = "0.1.2"
+__version__ = "0.1.2"  # todo x: sync with pyproject.toml version
 
 
 class AppPanelType(str, Enum):
