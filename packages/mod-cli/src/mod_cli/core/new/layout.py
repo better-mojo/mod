@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from jinja2 import Environment
@@ -17,7 +18,19 @@ class ProjectLayout:
     IGNORE_FILE = ".gitignore"
 
     def __init__(self, search_path: str = "../../templates"):
-        self.env = Environment(loader=FileSystemLoader(search_path))
+        where = Path(os.path.dirname(__file__))
+        tpl_dir = where / "../../templates"
+        # logger.info(f"template dir: {tpl_dir}")
+
+        self.env = Environment(
+            loader=FileSystemLoader(
+                [
+                    tpl_dir,
+                    search_path,
+                    "templates",
+                ]
+            )
+        )
 
     def render_mod_file(
         self,
