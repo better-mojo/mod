@@ -1,15 +1,14 @@
-import os
 from enum import Enum
 from pathlib import Path
 from typing import Optional
 
 import typer
-from loguru import logger
 from typing_extensions import Annotated
 
 from mod_cli.commands.add import cmd_add
 from mod_cli.commands.hack import cmd_hack
 from mod_cli.commands.workspace import cmd_workspace
+from mod_cli.core.new import ProjectHelper
 
 __version__ = "0.1.2"  # todo x: sync with pyproject.toml version
 
@@ -89,34 +88,19 @@ def new_project(
     ] = False,
     # typ: Annotated[NewType, typer.Option("--type", help="The type of project")] = NewType.bin,
 ):
-    """
-    New
-    """
-    typer.echo("New a mojo project")
-    logger.info(f"project name: {project_name}")
-    logger.info(f"project type: is_bin: {is_bin}, is_lib: {is_lib}")
+    typ = NewType.bin
+    if is_lib:
+        typ = NewType.lib
+    if is_bin:
+        typ = NewType.bin
 
-    if is_valid_directory(project_name):
-        print(f"{project_name} is not a directory")
-        # raise typer.Exit(1)
-        raise typer.Abort(f"{project_name} is not a directory")
+    h = ProjectHelper()
+    h.new(project_name=project_name, project_type=typ)
 
-    if os.path.exists(project_name):
-        typer.confirm(
-            f"❗️{project_name} already exists, do you want to overwrite it?", abort=True
-        )
-        print(f"\n❗️Overwriting {project_name}")
-
-    try:
-        os.makedirs(project_name, exist_ok=True)  # allow to overwrite
-    except Exception as e:
-        print(e)
-        # raise typer.Exit(1)
-        raise typer.Abort(e)
-
-    # 创建路径
-
-    # 判断 project_name 是不是路径(相对路径和绝对路径)
+    if is_lib:
+        typer.echo(f"Created library `{project_name}` package")
+    else:
+        typer.echo(f"Created binary (application) `{project_name}` package")
 
 
 @app.command(

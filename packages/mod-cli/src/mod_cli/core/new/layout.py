@@ -17,7 +17,7 @@ class ProjectLayout:
     IGNORE_FILE = ".gitignore"
 
     def __init__(self, search_path: str = "../../templates"):
-        self.env = Environment(loader=FileSystemLoader("../../templates"))
+        self.env = Environment(loader=FileSystemLoader(search_path))
 
     def render_mod_file(
         self,
@@ -58,8 +58,8 @@ class ProjectLayout:
     def load_template(self):
         pass
 
-    def write(self, root_dir: Path | str, project_name: str, project_type: str = "bin"):
-        root = Path(root_dir)
+    def write(self, path: Path | str, project_name: str, project_type: str = "bin"):
+        root = Path(path).absolute()
         src_dir = root / self.SOURCE_DIR
         f_mod = root / self.MOD_FILE
         f_readme = root / self.README_FILE
@@ -68,6 +68,9 @@ class ProjectLayout:
         f_code = src_dir / (
             self.BIN_FILE if project_type.lower() == "bin" else self.LIB_FILE
         )
+
+        # logger.info(f"write path: {root}")
+        # logger.info(f"src_dir: {src_dir}")
 
         if not src_dir.exists():
             src_dir.mkdir(parents=True)

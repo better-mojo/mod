@@ -9,19 +9,16 @@ from mod_cli.utils.validate import validate_project_name
 
 class ProjectHelper:
     def __init__(self):
-        self.layout = ProjectLayout()
-
-        pass
+        self.layout = ProjectLayout(search_path="templates/")
 
     def new(
         self,
-        project_name: str,
-        project_type: str = "lib",
-        project_dir: str = None,
+        project_name: Path | str,
+        project_type: str = "bin",
         **kwargs,
     ):
         p = Path(project_name)
-        if validate_project_name(project_name):
+        if not validate_project_name(project_name):
             print(f"{project_name} is not a directory")
             raise typer.Abort(f"{project_name} is not a directory")
 
@@ -33,18 +30,24 @@ class ProjectHelper:
             print(f"\n❗️Overwriting {project_name}")
 
         try:
-            os.makedirs(project_name, exist_ok=True)  # allow to overwrite
+            os.makedirs(p, exist_ok=True)  # allow to overwrite
         except Exception as e:
             print(e)
             # raise typer.Exit(1)
             raise typer.Abort(e)
 
         # create files
-        self.render_templates()
+        self.render_templates(
+            path=p.absolute(),
+            project_type=project_type,
+        )
 
-    def render_templates(self):
-        self.layout.render_readme_file()
-        pass
+    def render_templates(self, path: Path, project_type: str = "bin"):
+        self.layout.write(
+            path=path,
+            project_name=path.name,
+            project_type=project_type,
+        )
 
 
 def new_project(
