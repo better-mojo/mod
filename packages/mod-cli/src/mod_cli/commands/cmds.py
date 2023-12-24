@@ -76,13 +76,16 @@ def is_valid_directory(path):
 )
 def new_project(
     project_name: Annotated[
-        Path, typer.Argument(metavar="path", help="The path to create the project at.")
+        Path,
+        typer.Argument(metavar="path", help="The path to create the project at."),
     ],
     is_bin: Annotated[
-        bool, typer.Option("--bin", help="Create a binary project")
+        bool,
+        typer.Option("--bin", help="Use a binary (application) template [default]"),
     ] = False,
     is_lib: Annotated[
-        bool, typer.Option("--lib", help="Create a library project")
+        bool,
+        typer.Option("--lib", help="Use a library template"),
     ] = False,
     # typ: Annotated[NewType, typer.Option("--type", help="The type of project")] = NewType.bin,
 ):
