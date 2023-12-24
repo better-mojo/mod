@@ -27,6 +27,8 @@ mod --help
 
 ```
 
+![](./docs/mod-cmds.png)
+
 ### Manual
 
 - [Mod Docs](./packages/mod-cli/README.md)
@@ -39,4 +41,7 @@ mod new your/path/to/project --bin
 
 ...
 ```
+
+![](./docs/mod-new.jpg)
+
 
