@@ -9,8 +9,10 @@ from typing_extensions import Annotated
 
 from mod_cli.commands.add import cmd_add
 from mod_cli.commands.hack import cmd_hack
+from mod_cli.commands.workspace import cmd_workspace
 
 __version__ = "0.1.2"
+
 
 app = typer.Typer(
     help="Awesome Mojo Package Manager",
@@ -20,6 +22,7 @@ app = typer.Typer(
 # app.add_typer(cmd_new, help="Create a new project")
 app.add_typer(cmd_add, name="add")
 app.add_typer(cmd_hack, name="hack")
+app.add_typer(cmd_workspace, name="workspace")
 
 
 def init_app():

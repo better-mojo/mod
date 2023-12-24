@@ -1,35 +1,24 @@
 import typer
 
 
-cmd_workspace = typer.Typer(help="Hack Mojo Std Library", no_args_is_help=True)
+cmd_workspace = typer.Typer(help="Mojo Workspace Manger", no_args_is_help=True)
 
 
-@cmd_workspace.command()
-def init():
+@cmd_workspace.command("init")
+def init_workspace():
     typer.echo("Init mojo workspace")
 
 
-@cmd_workspace.command()
-def add():
-    typer.echo("add ")
-    typer.echo("Cleaning the 3rd Package to mojopkg")
+@cmd_workspace.command("add")
+def add_to_workspace():
+    typer.echo("add a mojo project to workspace")
 
 
-@cmd_workspace.command()
-def add():
-    typer.echo("Adding 3rd Package(mojopkg) to Mojo Std Library Directory")
+@cmd_workspace.command("remove")
+def remove_from_workspace():
+    typer.echo("remove a mojo project from workspace")
 
 
-@cmd_workspace.command()
-def remove():
-    typer.echo("Removing 3rd Package(mojopkg) from Mojo Std Library Directory")
-
-
-@cmd_workspace.command()
-def auto():
-    typer.echo("Auto Build & Add 3rd Package(mojopkg) to Mojo Std Library Directory")
-
-
-@cmd_workspace.command()
-def edit():
-    typer.echo("Edit the 3rd Package(mojopkg)")
+@cmd_workspace.command("list")
+def list_workspace():
+    typer.echo("list all mojo projects in workspace")
