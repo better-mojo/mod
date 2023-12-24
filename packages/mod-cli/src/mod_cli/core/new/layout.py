@@ -77,6 +77,7 @@ class ProjectLayout:
         f_mod = root / self.MOD_FILE
         f_readme = root / self.README_FILE
         f_task = root / self.TASK_FILE
+        f_ignore = root / self.IGNORE_FILE
         f_init = src_dir / self.INIT_FILE
         f_code = src_dir / (
             self.BIN_FILE if project_type.lower() == "bin" else self.LIB_FILE
@@ -115,6 +116,10 @@ class ProjectLayout:
         # write task
         with open(f_task, "w") as f:
             f.write(self.env.get_or_select_template(self.TASK_FILE).render())
+
+        # write .gitignore
+        with open(f_ignore, "w") as f:
+            f.write(self.env.get_template(self.IGNORE_FILE).render())
 
         # write code
         with open(f_code, "w") as f:
