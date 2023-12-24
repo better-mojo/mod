@@ -5,7 +5,7 @@
 ## Intro
 
 - `Mod` = `Mojo Dep`.
-- `Mod` is [Mojo](https://docs.modular.com/mojo/) `Package Manager Tool`.
+- `Mod` is a [Mojo](https://docs.modular.com/mojo/) `Package Manager Tool`.
 - like:
     - Rust: `Cargo`
     - Python: `Pip/Poetry/PDM`
