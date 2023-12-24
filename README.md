@@ -1,7 +1,11 @@
 # Mod(Mojo Dep)
 
+[English](./packages/mod-cli/README.md) | [简体中文](./packages/mod-cli/README_CN.md)
+
+## Intro
+
 - `Mod` = `Mojo Dep`.
-- `Mod` is `Mojo Package Manager Tool`.
+- `Mod` is [Mojo](https://docs.modular.com/mojo/) `Package Manager Tool`.
 - like:
     - Rust: `Cargo`
     - Python: `Pip/Poetry/PDM`
@@ -9,38 +13,30 @@
 
 ## Quick Start
 
+- [mod-cli - pypi](https://pypi.org/project/mod-cli/)
 - install:
 
 ```ruby
 
 # all Platform
-pip install mojo-dep
+pip install mod-cli
 
-# MacOS
-brew install mojo-dep
-
-# Linux
-apt install mojo-dep
-
-# Windows
-pip install mojo-dep
-
-```
-
-### Manual
-
-- `mojo mod -h`
-
-```ruby
-
-mod -v
-
-# 帮助:
+# help
 mod --help
 
 
 ```
 
-## Development
+### Manual
 
-- TODO
+- [Mod Docs](./packages/mod-cli/README.md)
+
+```ruby
+
+mod new your/path/to/project --lib
+
+mod new your/path/to/project --bin
+
+...
+```
+
