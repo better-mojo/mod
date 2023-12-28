@@ -1,6 +1,6 @@
 from enum import Enum
 from pathlib import Path
-from typing import Optional
+from typing import Optional, List
 
 import typer
 from typing_extensions import Annotated
@@ -178,15 +178,26 @@ def doctor():
     "remove",
     help="Remove dependencies",
     rich_help_panel=AppPanelType.development,
+    no_args_is_help=True,
 )
-def remove_dep():
-    typer.echo("Remove dependencies")
-
-
-@app.command(
-    "add2",
-    help="Add a package",
-    rich_help_panel=AppPanelType.development,
-)
-def add_package():
-    typer.echo("Add a package")
+def remove_dep(
+    package: Annotated[
+        List[str],
+        typer.Argument(
+            metavar="PACKAGE",
+            help="Remove a package from dependencies",
+        ),
+    ],
+    dev: Annotated[
+        bool,
+        typer.Option(
+            "--dev",
+            "-d",
+            help="Remove a development package from dependencies",
+        ),
+    ] = False,
+):
+    if dev:
+        typer.echo(f"Remove {package} from development dependencies")
+    else:
+        typer.echo(f"Remove {package} from dependencies")

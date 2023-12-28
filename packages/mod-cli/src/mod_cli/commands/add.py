@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List
 
 import typer
 from typing_extensions import Annotated
@@ -11,14 +11,14 @@ cmd_add = typer.Typer(
 @cmd_add.callback()
 def cb(
     package: Annotated[
-        str,
+        List[str],
         typer.Argument(
             metavar="PACKAGE",
             help="Add a package to dependencies",
         ),
     ],
     dev: Annotated[
-        Optional[bool],
+        bool,
         typer.Option(
             "--dev",
             "-d",
