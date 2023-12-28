@@ -39,18 +39,46 @@ app.add_typer(cmd_workspace, name="workspace", rich_help_panel=AppPanelType.proj
 
 
 # todo x: add global --options
-@app.callback(short_help="-h")
+@app.callback(invoke_without_command=True)
 def main(
+    h: Annotated[
+        Optional[bool],
+        typer.Option(
+            "--help",
+            "-h",
+            help="Show this help message",
+        ),
+    ] = False,
     version: Annotated[
         Optional[bool],
         typer.Option(
-            "--version", "-v", callback=version_callback, help="Show the version"
+            "--version",
+            "-v",
+            # callback=version_callback,
+            help="Show the version",
         ),
-    ] = None,
+    ] = False,
 ):
     """
     Awesome Mojo Package Manager
     """
+    from mod_cli.core.cache import PackageCacheHelper
+
+    ph = PackageCacheHelper()
+    ph.init()
+
+    # -v option
+    if version:
+        print(f"🔥 Mod: {__version__}")
+        raise typer.Exit()
+
+    # -h option
+    if h:
+        import subprocess
+
+        subprocess.run(["mod"])
+        print("🔥 Mod: %s" % __version__)
+        raise typer.Exit()
 
 
 class NewType(str, Enum):
@@ -153,3 +181,12 @@ def doctor():
 )
 def remove_dep():
     typer.echo("Remove dependencies")
+
+
+@app.command(
+    "add2",
+    help="Add a package",
+    rich_help_panel=AppPanelType.development,
+)
+def add_package():
+    typer.echo("Add a package")
