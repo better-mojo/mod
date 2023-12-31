@@ -35,8 +35,8 @@ class PackageCacheHelper:
             )
         )
 
-        logger.info(f"mod root: {self.mod_root}, type: {type(self.mod_root)}")
-        logger.info(f"bin dir: {self.bin_dir}, type: {type(self.bin_dir)}")
+        logger.debug(f"mod root: {self.mod_root}, type: {type(self.mod_root)}")
+        logger.debug(f"bin dir: {self.bin_dir}, type: {type(self.bin_dir)}")
 
         # auto init
         self.init()

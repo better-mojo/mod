@@ -18,7 +18,7 @@ tasks:
     aliases: [ "r" ]
     cmds:
       - echo "{{.SRC_DIR}}"
-      - poetry run python3 main.py {{.CLI_ARGS}}
+      - poetry run python3 main.py {{.CLI_ARGS}} # LOGURU_LEVEL=ERROR
     dir: src/mod_cli
 
   run:all:

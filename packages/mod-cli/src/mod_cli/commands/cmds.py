@@ -224,7 +224,7 @@ def mojo_exec(
 
 @app.command(
     "poetry",
-    help="Run poetry command",
+    help="Run Poetry(Python) command",
     rich_help_panel=AppPanelType.proxy,
 )
 def poetry_exec(
@@ -237,6 +237,23 @@ def poetry_exec(
     ] = None,
 ):
     proxy_exec(["poetry"] + args)
+
+
+@app.command(
+    "pdm",
+    help="Run PDM(Python) command",
+    rich_help_panel=AppPanelType.proxy,
+)
+def pdm_exec(
+    args: Annotated[
+        List[str],
+        typer.Argument(
+            metavar="COMMAND",
+            help="Run pdm command",
+        ),
+    ] = None,
+):
+    proxy_exec(["pdm"] + args)
 
 
 def proxy_exec(cmds: list):
@@ -258,7 +275,7 @@ def proxy_exec(cmds: list):
         if ret.stderr:
             print(ret.stderr)
     except subprocess.CalledProcessError as e:
-        print(f"{e.stderr}")
+        print(f"{e.stderr}")  # todo x: print exec exception error
     except subprocess.SubprocessError as e:
         print(f"{e}")
     except Exception as e:
