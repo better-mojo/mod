@@ -217,7 +217,7 @@ def mojo_exec(
             metavar="COMMAND",
             help="Run mojo command",
         ),
-    ],
+    ] = None,
 ):
     proxy_exec(["mojo"] + args)
 
@@ -257,5 +257,9 @@ def proxy_exec(cmds: list):
             print(ret.stdout)
         if ret.stderr:
             print(ret.stderr)
+    except subprocess.CalledProcessError as e:
+        print(f"{e.stderr}")
+    except subprocess.SubprocessError as e:
+        print(f"{e}")
     except Exception as e:
-        print(f"Exec Command error: {e}")
+        print(f"{e}")
