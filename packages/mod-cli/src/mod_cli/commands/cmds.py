@@ -219,9 +219,7 @@ def mojo_exec(
         ),
     ],
 ):
-    cmd = f"mojo {args if args else ''}"
-    print(f"Exec Mojo Command: {cmd}")
-    proxy_exec(cmd)
+    proxy_exec(["mojo"] + args)
 
 
 @app.command(
@@ -238,20 +236,26 @@ def poetry_exec(
         ),
     ] = None,
 ):
-    cmd = f"poetry {args if args else ''}"
-    print(f"Exec Poetry Command: {cmd}")
-    proxy_exec(cmd)
+    proxy_exec(["poetry"] + args)
 
 
-def proxy_exec(cmd):
+def proxy_exec(cmds: list):
+    print(f"Exec Command: {cmds}")
     try:
         ret = subprocess.run(
-            cmd,
-            shell=True,
+            cmds,
+            # shell=True,
             check=True,
+            # stdout=subprocess.PIPE,
+            # stderr=subprocess.PIPE,
+            encoding="utf-8",
             capture_output=True,
             text=True,
         )
-        print(ret.stdout)
+
+        if ret.stdout:
+            print(ret.stdout)
+        if ret.stderr:
+            print(ret.stderr)
     except Exception as e:
         print(f"Exec Command error: {e}")
