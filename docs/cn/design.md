@@ -35,6 +35,8 @@
 
 - `~/.cargo`
 - 比较复杂, 对源码做了二进制编译
+- [cargo.toml 定义](https://doc.rust-lang.org/cargo/reference/manifest.html)
+    - https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html
 
 ```ruby
 

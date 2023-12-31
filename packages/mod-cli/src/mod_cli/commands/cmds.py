@@ -1,8 +1,10 @@
+import subprocess
 from enum import Enum
 from pathlib import Path
 from typing import Optional, List
 
 import typer
+from loguru import logger
 from typing_extensions import Annotated
 
 from mod_cli.commands.add import cmd_add
@@ -201,3 +203,44 @@ def remove_dep(
         typer.echo(f"Remove {package} from development dependencies")
     else:
         typer.echo(f"Remove {package} from dependencies")
+
+
+@app.command(
+    "mojo",
+    help="Run mojo command",
+)
+def mojo_exec(
+    args: Annotated[
+        List[str],
+        typer.Argument(
+            metavar="COMMAND",
+            help="Run mojo command",
+        ),
+    ],
+):
+    cmd = f"mojo {args}"
+
+    try:
+        subprocess.run(cmd, check=True, capture_output=True, text=True)
+    except Exception as e:
+        logger.error(f"error: {e}")
+
+
+@app.command(
+    "poetry",
+    help="Run poetry command",
+)
+def poetry_exec(
+    args: Annotated[
+        List[str],
+        typer.Argument(
+            metavar="COMMAND",
+            help="Run poetry command",
+        ),
+    ]
+):
+    cmd = f"poetry {args}"
+    try:
+        subprocess.run(cmd, check=True, capture_output=True, text=True)
+    except Exception as e:
+        logger.error(f"error: {e}")
