@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Optional, List
 
 import typer
-from loguru import logger
 from typing_extensions import Annotated
 
 from mod_cli.commands.add import cmd_add
@@ -20,6 +19,7 @@ class AppPanelType(str, Enum):
     project = "Management Commands"
     development = "Development Commands"
     environment = "Environment Commands"
+    proxy = "Proxy Commands"
 
 
 def version_callback(value: bool):
@@ -208,6 +208,7 @@ def remove_dep(
 @app.command(
     "mojo",
     help="Run mojo command",
+    rich_help_panel=AppPanelType.proxy,
 )
 def mojo_exec(
     args: Annotated[
@@ -218,17 +219,15 @@ def mojo_exec(
         ),
     ],
 ):
-    cmd = f"mojo {args}"
-
-    try:
-        subprocess.run(cmd, check=True, capture_output=True, text=True)
-    except Exception as e:
-        logger.error(f"error: {e}")
+    cmd = f"mojo {args if args else ''}"
+    print(f"Exec Mojo Command: {cmd}")
+    proxy_exec(cmd)
 
 
 @app.command(
     "poetry",
     help="Run poetry command",
+    rich_help_panel=AppPanelType.proxy,
 )
 def poetry_exec(
     args: Annotated[
@@ -237,10 +236,22 @@ def poetry_exec(
             metavar="COMMAND",
             help="Run poetry command",
         ),
-    ]
+    ] = None,
 ):
-    cmd = f"poetry {args}"
+    cmd = f"poetry {args if args else ''}"
+    print(f"Exec Poetry Command: {cmd}")
+    proxy_exec(cmd)
+
+
+def proxy_exec(cmd):
     try:
-        subprocess.run(cmd, check=True, capture_output=True, text=True)
+        ret = subprocess.run(
+            cmd,
+            shell=True,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        print(ret.stdout)
     except Exception as e:
-        logger.error(f"error: {e}")
+        print(f"Exec Command error: {e}")
