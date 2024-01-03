@@ -3,6 +3,7 @@ from typing import List
 import typer
 from typing_extensions import Annotated
 
+
 cmd_add = typer.Typer(
     help="Add a package", no_args_is_help=True, invoke_without_command=True
 )

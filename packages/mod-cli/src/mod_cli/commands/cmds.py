@@ -1,14 +1,20 @@
 import subprocess
 from enum import Enum
 from pathlib import Path
-from typing import List, Optional
+from typing import (
+    List,
+    Optional,
+)
 
 import typer
+from typing_extensions import Annotated
+
 from mod_cli.commands.add import cmd_add
 from mod_cli.commands.hack import cmd_hack
 from mod_cli.commands.workspace import cmd_workspace
 from mod_cli.core.new import ProjectHelper
-from typing_extensions import Annotated
+from mod_cli.core.package.package import PackageHelper
+
 
 __version__ = "0.1.2"  # todo x: sync with pyproject.toml version
 
@@ -180,19 +186,53 @@ def package_add(
         ),
     ] = None,
     is_dev: Annotated[
-        bool,
+        Optional[bool],
         typer.Option(
             "--dev",
             "-d",
-            help="Add a development package to dependencies",
+            help="BOOL: Add a development package to dependencies",
         ),
     ] = False,
+    version: Annotated[
+        Optional[str],
+        typer.Option(
+            "--version",
+            help="The version of the package to add",
+        ),
+    ] = None,
+    branch: Annotated[
+        Optional[str],
+        typer.Option(
+            "--branch",
+            help="The branch of the package to add",
+        ),
+    ] = None,
+    directory: Annotated[
+        Optional[str],
+        typer.Option(
+            "--dir",
+            help="The path of the package to add",
+        ),
+    ] = None,
 ):
     typer.echo("Add a package to dependencies")
+
+    typer.echo(
+        f"input args: {package}, dev: {is_dev}, v: {version}, branch: {branch}, dir: {directory}"
+    )
     if is_dev:
         typer.echo(f"Add {package} to development dependencies")
     else:
         typer.echo(f"Add {package} to dependencies")
+
+    h = PackageHelper()
+    h.add(
+        package=package,
+        is_dev=is_dev,
+        version=version,
+        branch=branch,
+        path=directory,
+    )
 
 
 @app.command("env", help="Environment information")

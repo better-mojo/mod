@@ -15,7 +15,7 @@ class PackageCacheHelper:
         - dart: `.pub-cache`
     """
 
-    MOD_ROOT = os.path.expanduser("~/.mod")
+    MOD_ROOT = os.path.expanduser("~/.mod")  # mod global cache root dir
     MOD_TEMPLATE_DIR = "mod"
     MOD_CONFIG_FILE = "config.toml"
 

@@ -5,6 +5,7 @@ import sys
 import typer
 from loguru import logger
 
+
 cmd_doctor = typer.Typer()
 
 

@@ -1,5 +1,6 @@
 import typer
 
+
 cmd_hack = typer.Typer(help="Hack Mojo Std Library", no_args_is_help=True)
 
 

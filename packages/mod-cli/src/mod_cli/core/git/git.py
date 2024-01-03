@@ -3,7 +3,11 @@ import shutil
 import subprocess
 
 from loguru import logger
-from mod_cli.core.dir import find_project_dir, validate_project_dir
+
+from mod_cli.core.dir import (
+    find_project_dir,
+    validate_project_dir,
+)
 
 
 class Git(object):
@@ -41,7 +45,11 @@ class Git(object):
         return self.clone(url, branch, path)
 
     def is_repo_exists(
-        self, host: str = None, username: str = None, repo: str = None, url: str = None
+        self,
+        host: str = None,
+        username: str = None,
+        repo: str = None,
+        url: str = None,
     ):
         if url:
             host, username, repo, url = self.parse_git_url(url)
@@ -92,7 +100,11 @@ class Git(object):
         return os.path.join(self.deps_dir, host, username, repo)
 
     def clean(
-        self, host: str = None, username: str = None, repo: str = None, url: str = None
+        self,
+        host: str = None,
+        username: str = None,
+        repo: str = None,
+        url: str = None,
     ):
         if url:
             host, username, repo, url = self.parse_git_url(url)

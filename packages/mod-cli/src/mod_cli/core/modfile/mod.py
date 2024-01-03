@@ -2,7 +2,11 @@ import os
 
 import tomlkit
 from loguru import logger
-from mod_cli.core.dir import find_project_dir, validate_project_dir
+
+from mod_cli.core.dir import (
+    find_project_dir,
+    validate_project_dir,
+)
 
 
 def pretty_print(kv: dict = None):
