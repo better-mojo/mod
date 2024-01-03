@@ -35,7 +35,7 @@ app = typer.Typer(
 )
 
 # app.add_typer(cmd_new, help="Create a new project")
-app.add_typer(cmd_add, name="add", rich_help_panel=AppPanelType.development)
+app.add_typer(cmd_add, name="add2", rich_help_panel=AppPanelType.development)
 app.add_typer(cmd_hack, name="hack", rich_help_panel=AppPanelType.development)
 app.add_typer(cmd_workspace, name="workspace", rich_help_panel=AppPanelType.project)
 
@@ -164,6 +164,36 @@ def init_project():
     Init the old project
     """
     typer.echo("init the old project")
+
+
+@app.command(
+    "add",
+    help="Add dependencies",
+    rich_help_panel=AppPanelType.development,
+    no_args_is_help=True,
+)
+def package_add(
+    package: Annotated[
+        List[str],
+        typer.Argument(
+            metavar="PACKAGE",
+            help="Add a package to dependencies",
+        ),
+    ] = None,
+    is_dev: Annotated[
+        bool,
+        typer.Option(
+            "--dev",
+            "-d",
+            help="Add a development package to dependencies",
+        ),
+    ] = False,
+):
+    typer.echo("Add a package to dependencies")
+    if is_dev:
+        typer.echo(f"Add {package} to development dependencies")
+    else:
+        typer.echo(f"Add {package} to dependencies")
 
 
 @app.command("env", help="Environment information")
