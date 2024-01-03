@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 
 import typer
-
 from mod_cli.core.new.layout import ProjectLayout
 from mod_cli.utils.validate import validate_project_name
 

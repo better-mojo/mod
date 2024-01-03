@@ -1,9 +1,9 @@
+import platform
+import subprocess
 import sys
 
 import typer
 from loguru import logger
-import platform
-import subprocess
 
 cmd_doctor = typer.Typer()
 
@@ -50,20 +50,20 @@ def check_os() -> (str, str):
 def check_pkg_manager(pm: str):
     cmd_check = [pm, "--version"]
 
-    install_brew = '''
+    install_brew = """
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    '''
+    """
 
     #
     # windows install choco
     #   - ref: https://docs.chocolatey.org/en-us/choco/setup#more-install-options
     #
-    install_choco_by_cmd = '''
+    install_choco_by_cmd = """
     @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
-    '''
-    install_choco_by_ps = '''
+    """
+    install_choco_by_ps = """
     Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
-    '''
+    """
 
     pm_install = {
         "brew": [install_brew],
@@ -136,7 +136,7 @@ def exec_cmds(cmds: list):
             check=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            encoding='utf-8',
+            encoding="utf-8",
         )
 
         # 打印输出
@@ -160,7 +160,13 @@ def exec_cmds(cmds: list):
 def test_ok():
     # doctor()
     has_package("git")
-    has_packages(["git", "python", "poetry", ])
+    has_packages(
+        [
+            "git",
+            "python",
+            "poetry",
+        ]
+    )
 
 
 def test_err():

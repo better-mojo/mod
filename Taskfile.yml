@@ -62,6 +62,16 @@ tasks:
 
   ##################################################################################################
 
+
+  fmt:
+    aliases: [ "f" ]
+    cmds:
+      - isort .
+      - black .
+      - flake8 .
+    ignore_error: true
+
+
   quick:
     aliases: [ 'q' ]
     cmds:
@@ -76,6 +86,7 @@ tasks:
   commit:
     aliases: [ 'c' ]
     cmds:
+      - task: fmt
       - git add .
       - git commit -m "update"
     ignore_error: true

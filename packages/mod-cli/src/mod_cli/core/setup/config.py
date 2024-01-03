@@ -1,6 +1,7 @@
+import os
+
 import typer
 from loguru import logger
-import os
 
 
 def init_mod_config():

@@ -1,4 +1,5 @@
 import os
+
 from loguru import logger
 
 
@@ -12,9 +13,9 @@ def find_project_dir(path: str = None):
     # 向上递归寻找含有 pyproject.toml 的目录
     while True:
         if (
-            'pyproject.toml' in os.listdir(path)
-            or 'mod.toml' in os.listdir(path)
-            or '.git' in os.listdir(path)
+            "pyproject.toml" in os.listdir(path)
+            or "mod.toml" in os.listdir(path)
+            or ".git" in os.listdir(path)
         ):
             root = path
             break
@@ -22,7 +23,7 @@ def find_project_dir(path: str = None):
             path = os.path.abspath(os.path.join(path, os.pardir))
         # 如果已经到达根目录，停止搜索
         if path == os.path.abspath(os.path.join(path, os.pardir)):
-            logger.error(f"No directory with 'pyproject.toml' found.")
+            logger.error("No directory with 'pyproject.toml' found.")
             break
     return root
 
@@ -36,11 +37,10 @@ def validate_project_dir(path: str = None):
         return False
 
     if (
-        'pyproject.toml' in os.listdir(path)
-        or 'mod.toml' in os.listdir(path)
-        or '.git' in os.listdir(path)
+        "pyproject.toml" in os.listdir(path)
+        or "mod.toml" in os.listdir(path)
+        or ".git" in os.listdir(path)
     ):
-        root = path
         return True
     return False
 

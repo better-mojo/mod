@@ -1,15 +1,17 @@
 import os.path
-import subprocess
-from loguru import logger
 import shutil
+import subprocess
 
+from loguru import logger
 from mod_cli.core.dir import find_project_dir, validate_project_dir
 
 
 class Git(object):
     def __init__(self, project_dir: str = None):
         # double check
-        self.project_dir = project_dir if validate_project_dir(project_dir) else find_project_dir()
+        self.project_dir = (
+            project_dir if validate_project_dir(project_dir) else find_project_dir()
+        )
         self.deps_dir = os.path.join(self.project_dir, "target", "deps")
         self.build_dir = os.path.join(self.project_dir, "target", "build")
         self.hosts = [
@@ -38,7 +40,9 @@ class Git(object):
         # TODO: git fetch cmd
         return self.clone(url, branch, path)
 
-    def is_repo_exists(self, host: str = None, username: str = None, repo: str = None, url: str = None):
+    def is_repo_exists(
+        self, host: str = None, username: str = None, repo: str = None, url: str = None
+    ):
         if url:
             host, username, repo, url = self.parse_git_url(url)
 
@@ -87,7 +91,9 @@ class Git(object):
         host, username, repo, url = self.parse_git_url(url)
         return os.path.join(self.deps_dir, host, username, repo)
 
-    def clean(self, host: str = None, username: str = None, repo: str = None, url: str = None):
+    def clean(
+        self, host: str = None, username: str = None, repo: str = None, url: str = None
+    ):
         if url:
             host, username, repo, url = self.parse_git_url(url)
         return self.exec_rm_repo(host, username, repo)
@@ -126,15 +132,18 @@ def test():
 
     g = Git()
     g.parse_git_url()
-    host, username, repo, url = g.parse_git_url(url="https://github.com/MoSafi2/MojoFastTrim.git")
+    host, username, repo, url = g.parse_git_url(
+        url="https://github.com/MoSafi2/MojoFastTrim.git"
+    )
     g.parse_git_url(url="git@github.com:MoSafi2/MojoFastTrim.git")
     # g.clone(url="https://github.com/MoSafi2/MojoFastTrim.git")
     # g.clone(url="https://github.com/MoSafi2/MojoFastTrim.git", branch="dev")
 
-    logger.info(f"repo exists: {g.is_repo_exists(host=host, username=username, repo=repo)}")
+    logger.info(
+        f"repo exists: {g.is_repo_exists(host=host, username=username, repo=repo)}"
+    )
     logger.info(f"repo exists: {g.is_repo_exists(url=url)}")
 
     # g.clone(url=url)
     # g.clean(url=url)
     # g.clone(url=url)
-

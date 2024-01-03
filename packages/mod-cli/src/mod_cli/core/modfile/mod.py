@@ -1,8 +1,8 @@
 import os
+
 import tomlkit
 from loguru import logger
-
-from mod_cli.core.dir import validate_project_dir, find_project_dir
+from mod_cli.core.dir import find_project_dir, validate_project_dir
 
 
 def pretty_print(kv: dict = None):
@@ -26,9 +26,10 @@ def pretty_print(kv: dict = None):
 
 
 class ModFile(object):
-
     def __init__(self, project_dir: str = None):
-        self.project_dir = project_dir if validate_project_dir(project_dir) else find_project_dir()
+        self.project_dir = (
+            project_dir if validate_project_dir(project_dir) else find_project_dir()
+        )
         self.mod_toml = os.path.join(self.project_dir, "mod.toml")
         self.mod_lock = os.path.join(self.project_dir, "mod.lock")
         self.pyproject_toml = os.path.join(self.project_dir, "pyproject.toml")

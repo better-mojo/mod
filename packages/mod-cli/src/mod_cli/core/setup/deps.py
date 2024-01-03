@@ -1,6 +1,7 @@
 import os
-from loguru import logger
 import shutil
+
+from loguru import logger
 
 
 def init_deps_dir(find_path=None, deps_folder="target"):
@@ -25,13 +26,13 @@ def find_or_create_deps_dir(deps_path, dep_folder="target"):
 
     # 检查当前目录是否包含pyproject.toml文件
     if (
-        'pyproject.toml' in os.listdir(abs_path)
-        or 'mod.toml' in os.listdir(abs_path)
-        or '.git' in os.listdir(abs_path)
+        "pyproject.toml" in os.listdir(abs_path)
+        or "mod.toml" in os.listdir(abs_path)
+        or ".git" in os.listdir(abs_path)
     ):
         # 在当前目录创建vendor目录
         vendor_dir = os.path.join(abs_path, dep_folder)
-        deps_dir = os.path.join(vendor_dir, 'deps')
+        deps_dir = os.path.join(vendor_dir, "deps")
 
         if not os.path.exists(deps_dir):
             os.makedirs(deps_dir)

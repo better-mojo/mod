@@ -7,7 +7,7 @@ from loguru import logger
 def validate_project_name2(project_name):
     # 校验长度是否符合要求（示例为 3 到 20 个字符）
     if len(project_name) < 1 or len(project_name) > 30:
-        logger.error(f"project name length should be between 1 and 30")
+        logger.error("project name length should be between 1 and 30")
         return False
 
     # 校验首字母是否合法
@@ -17,7 +17,7 @@ def validate_project_name2(project_name):
     # 校验是否只包含字母、数字和下划线
     if not re.match("^[a-zA-Z0-9_-]+$", project_name):
         logger.error(
-            f"project name should only contain letters, numbers, and underscores"
+            "project name should only contain letters, numbers, and underscores"
         )
         return False
 

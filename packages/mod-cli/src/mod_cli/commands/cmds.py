@@ -1,15 +1,14 @@
 import subprocess
 from enum import Enum
 from pathlib import Path
-from typing import Optional, List
+from typing import List, Optional
 
 import typer
-from typing_extensions import Annotated
-
 from mod_cli.commands.add import cmd_add
 from mod_cli.commands.hack import cmd_hack
 from mod_cli.commands.workspace import cmd_workspace
 from mod_cli.core.new import ProjectHelper
+from typing_extensions import Annotated
 
 __version__ = "0.1.2"  # todo x: sync with pyproject.toml version
 
@@ -142,7 +141,7 @@ def install_deps():
     """
     Install dependencies
     """
-    typer.echo(f"Install dependencies")
+    typer.echo("Install dependencies")
 
 
 @app.command(
