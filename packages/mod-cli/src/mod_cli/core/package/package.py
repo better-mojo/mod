@@ -5,6 +5,7 @@ from pathlib import Path
 
 import tomlkit
 from loguru import logger
+from tomlkit import table
 
 
 class PackageHelper:
@@ -15,12 +16,18 @@ class PackageHelper:
 
     def __init__(self):
         self.mod_toml = self.parse_mod_toml()
-        self.packages = self.mod_toml.get(self.DEPENDENCIES, {})
-        self.dev_packages = self.mod_toml.get(self.DEV_DEPENDENCIES, {})
+        self.packages = table(is_super_table=True)  # inline_table()
+        self.packages.update(self.mod_toml.get(self.DEPENDENCIES, {}))
+        self.dev_packages = table(is_super_table=True)  # inline_table()
+        self.dev_packages.update(self.mod_toml.get(self.DEV_DEPENDENCIES, {}))
+
+        # convert to inline table
+        self.mod_toml[self.DEV_DEPENDENCIES] = self.dev_packages
+        self.mod_toml[self.DEPENDENCIES] = self.packages
 
         logger.debug(f"mod.toml: {self.mod_toml}")
-        logger.debug(f"packages: {self.packages}")
-        logger.debug(f"dev_packages: {self.dev_packages}")
+        logger.debug(f"packages: {type(self.packages)}, {self.packages}")
+        logger.debug(f"dev_packages: {type(self.dev_packages)}, {self.dev_packages}")
 
         if not self.GLOBAL_CACHE_DIR.exists():
             self.GLOBAL_CACHE_DIR.mkdir(parents=True)
@@ -69,17 +76,19 @@ class PackageHelper:
         branch: str = None,
         path: str = None,  # local pkg
     ):
-        where = self.packages if is_dev else self.packages
+        where = self.dev_packages if is_dev else self.packages
 
         if package_name in where.keys():
-            if url == where["git"]:
+            if url == where.get("git", None):
+                # already exists
                 return
             else:
                 logger.error("duplicate package name in mod.toml")
+                return
 
-        item = {
-            "git": url,
-        }
+        item = {}
+        if url:
+            item["git"] = url
         if is_dev:
             item["dev"] = True
         if version:
@@ -89,13 +98,22 @@ class PackageHelper:
         if path:
             item["path"] = path
 
-        where[package_name] = item
+        where.add(package_name, item)  # list mode
+        # where[package_name] = item # sub key mode
+        # where.update({package_name: item})
+        # where.append(package_name, item)
+
+        logger.debug(f"add to where: {where}")
+
+        # fix inline_table
+
         return item
 
     def save_mod_toml(self):
         f_mod = Path(os.getcwd()) / self.MOD_FILE
+        logger.debug(f"save data: {self.mod_toml}")
         with open(f_mod, "w") as f:
-            tomlkit.dump(self.mod_toml, f)
+            tomlkit.dump(self.mod_toml, f, sort_keys=True)
 
     def add_one(
         self,
