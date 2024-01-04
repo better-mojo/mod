@@ -177,12 +177,19 @@ def init_project():
     rich_help_panel=AppPanelType.development,
     no_args_is_help=True,
 )
-def package_add(
-    package: Annotated[
+def add_dep(
+    package_path: Annotated[
         List[str],
         typer.Argument(
-            metavar="PACKAGE",
+            metavar="PACKAGE_PATH",
             help="Add a package to dependencies",
+        ),
+    ] = None,
+    package_name: Annotated[
+        Optional[str],
+        typer.Option(
+            metavar="PACKAGE_NAME",
+            help="the name of the package to add",
         ),
     ] = None,
     is_dev: Annotated[
@@ -207,42 +214,25 @@ def package_add(
             help="The branch of the package to add",
         ),
     ] = None,
-    directory: Annotated[
-        Optional[str],
-        typer.Option(
-            "--dir",
-            help="The path of the package to add",
-        ),
-    ] = None,
 ):
     typer.echo("Add a package to dependencies")
 
     typer.echo(
-        f"input args: {package}, dev: {is_dev}, v: {version}, branch: {branch}, dir: {directory}"
+        f"input args: {package_path}, name: {package_name}, dev: {is_dev}, v: {version}, branch: {branch}"
     )
     if is_dev:
-        typer.echo(f"Add {package} to development dependencies")
+        typer.echo(f"Add {package_path} to development dependencies")
     else:
-        typer.echo(f"Add {package} to dependencies")
+        typer.echo(f"Add {package_path} to dependencies")
 
     h = PackageHelper()
-    h.add(
-        package=package,
+    h.add_many(
+        packages=package_path,
+        package_name=package_name,
         is_dev=is_dev,
         version=version,
         branch=branch,
-        path=directory,
     )
-
-
-@app.command("env", help="Environment information")
-def env_info():
-    typer.echo("Environment information")
-
-
-@app.command(help="Doctor")
-def doctor():
-    typer.echo("fix env")
 
 
 @app.command(
@@ -272,6 +262,16 @@ def remove_dep(
         typer.echo(f"Remove {package} from development dependencies")
     else:
         typer.echo(f"Remove {package} from dependencies")
+
+
+@app.command("env", help="Environment information")
+def env_info():
+    typer.echo("Environment information")
+
+
+@app.command(help="Doctor")
+def doctor():
+    typer.echo("fix env")
 
 
 @app.command(
