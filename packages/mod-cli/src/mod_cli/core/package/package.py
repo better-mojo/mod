@@ -15,24 +15,26 @@ class PackageHelper:
     DEPENDENCIES = "dependencies"
 
     def __init__(self):
-        self.mod_toml = self.parse_mod_toml()
+        self.mod_toml = None
         self.packages = table(is_super_table=True)  # inline_table()
-        self.packages.update(self.mod_toml.get(self.DEPENDENCIES, {}))
         self.dev_packages = table(is_super_table=True)  # inline_table()
-        self.dev_packages.update(self.mod_toml.get(self.DEV_DEPENDENCIES, {}))
 
-        # convert to inline table
-        self.mod_toml[self.DEV_DEPENDENCIES] = self.dev_packages
-        self.mod_toml[self.DEPENDENCIES] = self.packages
+        # init
+        self.setup()
 
-        logger.debug(f"mod.toml: {self.mod_toml}")
-        logger.debug(f"packages: {type(self.packages)}, {self.packages}")
-        logger.debug(f"dev_packages: {type(self.dev_packages)}, {self.dev_packages}")
+    def setup(self):
+        # init
+        self.read_mod_toml()
 
+        # logger.debug(f"mod.toml: {self.mod_toml}")
+        # logger.debug(f"packages: {type(self.packages)}, {self.packages}")
+        # logger.debug(f"dev_packages: {type(self.dev_packages)}, {self.dev_packages}")
+
+        # global cache dir:
         if not self.GLOBAL_CACHE_DIR.exists():
             self.GLOBAL_CACHE_DIR.mkdir(parents=True)
 
-    def parse_mod_toml(self):
+    def read_mod_toml(self):
         f_mod = Path(os.getcwd()) / self.MOD_FILE
 
         if not f_mod.exists():
@@ -41,7 +43,17 @@ class PackageHelper:
             return None
 
         with open(f_mod, "r") as f:
-            return tomlkit.load(f)
+            data = tomlkit.load(f)
+
+        # UPDATE
+        self.mod_toml = data
+        self.packages.update(self.mod_toml.get(self.DEPENDENCIES, {}))
+        self.dev_packages.update(self.mod_toml.get(self.DEV_DEPENDENCIES, {}))
+        # convert to inline table
+        self.mod_toml[self.DEV_DEPENDENCIES] = self.dev_packages
+        self.mod_toml[self.DEPENDENCIES] = self.packages
+
+        return data
 
     def add_many(
         self,
@@ -109,7 +121,20 @@ class PackageHelper:
 
         return item
 
-    def save_mod_toml(self):
+    def remove_from_mod_toml(self, package_name: str, is_dev: bool = False):
+        self.read_mod_toml()
+        where = self.dev_packages if is_dev else self.packages
+        mode = self.DEV_DEPENDENCIES if is_dev else self.DEPENDENCIES
+
+        if package_name not in where.keys():
+            print(f"[{package_name}] not found in {mode} of mod.toml")
+            return False
+
+        # remove
+        where.remove(package_name)
+        return True
+
+    def write_mod_toml(self):
         f_mod = Path(os.getcwd()) / self.MOD_FILE
         logger.debug(f"save data: {self.mod_toml}")
         with open(f_mod, "w") as f:
@@ -159,7 +184,7 @@ class PackageHelper:
         self.git_clone(url, cached_path)
 
         # save to mod.toml
-        self.save_mod_toml()
+        self.write_mod_toml()
 
     def git_clone(self, url: str, cached_path: Path):
         # check if cached
@@ -199,8 +224,24 @@ class PackageHelper:
 
         pass
 
-    def remove(self):
-        pass
+    def remove_one(self, package_name: str, is_dev: bool = False):
+        has = self.remove_from_mod_toml(package_name, is_dev)
+        if not has:
+            return
+        self.write_mod_toml()
+
+    def remove_many(self, packages: list[str], is_dev: bool = False):
+        if len(packages) == 1:
+            self.remove_one(packages[0], is_dev)
+            return
+
+        has = False
+        for pkg in packages:
+            has_one = self.remove_from_mod_toml(pkg, is_dev)
+            has = has or has_one
+        if not has:
+            return
+        self.write_mod_toml()
 
     def update(self):
         pass
@@ -218,4 +259,4 @@ class _TestIt(unittest.TestCase):
         pass
 
     def test_add(self):
-        self.it.add(package="github.com/owner/repo")
+        self.it.add_one(package_path="github.com/owner/repo")

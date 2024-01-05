@@ -258,10 +258,8 @@ def remove_dep(
         ),
     ] = False,
 ):
-    if dev:
-        typer.echo(f"Remove {package} from development dependencies")
-    else:
-        typer.echo(f"Remove {package} from dependencies")
+    h = PackageHelper()
+    h.remove_many(packages=package, is_dev=dev)
 
 
 @app.command("env", help="Environment information")
