@@ -11,7 +11,7 @@ def validate_project_name2(project_name):
         return False
 
     # 校验首字母是否合法
-    if re.match("[-_\d]", project_name[0]):
+    if re.match(r"[-_\d]", project_name[0]):
         return False
 
     # 校验是否只包含字母、数字和下划线

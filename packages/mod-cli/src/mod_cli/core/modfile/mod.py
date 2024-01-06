@@ -29,7 +29,7 @@ def pretty_print(kv: dict = None):
             logger.info(f"{k}: {v}")
 
 
-class ModFile(object):
+class ModFile:
     def __init__(self, project_dir: str = None):
         self.project_dir = (
             project_dir if validate_project_dir(project_dir) else find_project_dir()
@@ -46,7 +46,7 @@ class ModFile(object):
             logger.error(f"mod.toml not found: {self.mod_toml}")
             return
 
-        with open(self.mod_toml, "r") as f:
+        with open(self.mod_toml) as f:
             self.data = tomlkit.load(f)
             logger.info(f"read mod.toml: {self.data}")
 
@@ -55,7 +55,7 @@ class ModFile(object):
             logger.error(f"pyproject.toml not found: {self.pyproject_toml}")
             return
 
-        with open(self.pyproject_toml, "r") as f:
+        with open(self.pyproject_toml) as f:
             self.pyproject_data = tomlkit.load(f)
             pretty_print(self.pyproject_data)
 

@@ -2,19 +2,17 @@ import subprocess
 from enum import Enum
 from pathlib import Path
 from typing import (
-    List,
+    Annotated,
     Optional,
 )
 
 import typer
-from typing_extensions import Annotated
 
 from mod_cli.commands.add import cmd_add
 from mod_cli.commands.hack import cmd_hack
 from mod_cli.commands.workspace import cmd_workspace
 from mod_cli.core.new import ProjectHelper
 from mod_cli.core.package.package import PackageHelper
-
 
 __version__ = "0.1.2"  # todo x: sync with pyproject.toml version
 
@@ -179,7 +177,7 @@ def init_project():
 )
 def add_dep(
     package_path: Annotated[
-        List[str],
+        list[str],
         typer.Argument(
             metavar="PACKAGE_PATH",
             help="Add a package to dependencies",
@@ -243,7 +241,7 @@ def add_dep(
 )
 def remove_dep(
     package: Annotated[
-        List[str],
+        list[str],
         typer.Argument(
             metavar="PACKAGE",
             help="Remove a package from dependencies",
@@ -279,7 +277,7 @@ def doctor():
 )
 def mojo_exec(
     args: Annotated[
-        List[str],
+        list[str],
         typer.Argument(
             metavar="COMMAND",
             help="Run mojo command",
@@ -296,7 +294,7 @@ def mojo_exec(
 )
 def poetry_exec(
     args: Annotated[
-        List[str],
+        list[str],
         typer.Argument(
             metavar="COMMAND",
             help="Run poetry command",
@@ -313,7 +311,7 @@ def poetry_exec(
 )
 def pdm_exec(
     args: Annotated[
-        List[str],
+        list[str],
         typer.Argument(
             metavar="COMMAND",
             help="Run pdm command",

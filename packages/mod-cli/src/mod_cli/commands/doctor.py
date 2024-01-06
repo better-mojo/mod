@@ -1,10 +1,8 @@
 import platform
 import subprocess
-import sys
 
 import typer
 from loguru import logger
-
 
 cmd_doctor = typer.Typer()
 
@@ -60,7 +58,7 @@ def check_pkg_manager(pm: str):
     #   - ref: https://docs.chocolatey.org/en-us/choco/setup#more-install-options
     #
     install_choco_by_cmd = """
-    @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+    @"%SystemRoot%\\System32\\WindowsPowerShell\v1.0\\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\\chocolatey\bin"
     """
     install_choco_by_ps = """
     Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))

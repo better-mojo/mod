@@ -10,7 +10,7 @@ from mod_cli.core.dir import (
 )
 
 
-class Git(object):
+class Git:
     def __init__(self, project_dir: str = None):
         # double check
         self.project_dir = (

@@ -62,9 +62,14 @@ tasks:
 
   ##################################################################################################
 
-
   fmt:
     aliases: [ "f" ]
+    cmds:
+      - ruff . --fix
+    ignore_error: true
+
+  fmt2:
+    aliases: [ "f2" ]
     cmds:
       - isort .
       - black .

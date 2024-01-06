@@ -42,7 +42,7 @@ class PackageHelper:
             print("mod.toml not found in current directory")
             return None
 
-        with open(f_mod, "r") as f:
+        with open(f_mod) as f:
             data = tomlkit.load(f)
 
         # UPDATE
