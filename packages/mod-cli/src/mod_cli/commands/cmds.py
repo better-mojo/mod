@@ -283,7 +283,7 @@ def mojo_exec(
         ),
     ] = None,
 ):
-    proxy_exec(["mojo"] + args)
+    proxy_exec(["mojo", *args])
 
 
 @app.command(
@@ -300,7 +300,7 @@ def poetry_exec(
         ),
     ] = None,
 ):
-    proxy_exec(["poetry"] + args)
+    proxy_exec(["poetry", *args])
 
 
 @app.command(
@@ -317,7 +317,7 @@ def pdm_exec(
         ),
     ] = None,
 ):
-    proxy_exec(["pdm"] + args)
+    proxy_exec(["pdm", *args])
 
 
 def proxy_exec(cmds: list):

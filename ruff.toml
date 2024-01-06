@@ -58,14 +58,20 @@ select = [
     "I", # isort
     "C", # flake8-comprehensions
     "B", # flake8-bugbear
+    "Q", # flake8-quotes
     "UP", # pyupgrade
     "SIM", # flake8-simplify
+    "TID", # flake8-tidy-imports
+    #    "PL", # Pylint
+    "RUF", # Ruff-specific rules
 ]
 ignore = [
     "E501", # line too long, handled by black
     "B008", # do not perform function calls in argument defaults
     "C901", # too complex
     "W191", # indentation contains tabs
+    "RUF003",
+    "RUF013",
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
