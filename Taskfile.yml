@@ -65,6 +65,7 @@ tasks:
   fmt:
     aliases: [ "f" ]
     cmds:
+      - black .
       - ruff . --fix
     ignore_error: true
 
