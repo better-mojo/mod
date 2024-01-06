@@ -64,6 +64,14 @@ select = [
     "TID", # flake8-tidy-imports
     #    "PL", # Pylint
     "RUF", # Ruff-specific rules
+    "FA", # flake8-future-annotations
+    "T",
+    "PD",
+    "PT", # flake8-pytest-style
+    "PYI", # flake8-pyi
+    "TCH", # flake8-type-checking
+    "INT", # flake8-gettext
+    "G", # flake8-logging-format
 ]
 ignore = [
     "E501", # line too long, handled by black
@@ -72,6 +80,7 @@ ignore = [
     "W191", # indentation contains tabs
     "RUF003",
     "RUF013",
+    "T201", # `print` found
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
