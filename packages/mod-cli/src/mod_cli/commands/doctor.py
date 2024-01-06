@@ -110,10 +110,7 @@ def has_package(pkg: str):
 
 
 def has_packages(packages: list):
-    for pkg in packages:
-        if not has_package(pkg):
-            return False
-    return True
+    return all(has_package(pkg) for pkg in packages)
 
 
 def install_package_by_pm(pm: str, pkg: str):
@@ -133,8 +130,7 @@ def exec_cmds(cmds: list):
         result = subprocess.run(
             cmds,
             check=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             encoding="utf-8",
         )
 

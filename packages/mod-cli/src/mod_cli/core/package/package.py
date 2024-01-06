@@ -90,7 +90,7 @@ class PackageHelper:
     ):
         where = self.dev_packages if is_dev else self.packages
 
-        if package_name in where.keys():
+        if package_name in where:
             if url == where.get("git", None):
                 # already exists
                 return
@@ -126,7 +126,7 @@ class PackageHelper:
         where = self.dev_packages if is_dev else self.packages
         mode = self.DEV_DEPENDENCIES if is_dev else self.DEPENDENCIES
 
-        if package_name not in where.keys():
+        if package_name not in where:
             print(f"[{package_name}] not found in {mode} of mod.toml")
             return False
 
@@ -159,7 +159,7 @@ class PackageHelper:
         if "github.com" in package_path.lower():
             owner, repo = package_path.split("github.com/")[1].split("/")
         elif "gh" in package_path.lower():
-            owner, repo = package_path.lstrip("gh://").split("/")
+            owner, repo = package_path.strip("gh://").split("/")
         else:  # local package
             local_pkg_path = package_path
 

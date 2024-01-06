@@ -29,12 +29,7 @@ class ProjectHelper:
             )
             print(f"\n❗️Overwriting {project_name}")
 
-        try:
-            os.makedirs(p, exist_ok=True)  # allow to overwrite
-        except Exception as e:
-            print(e)
-            # raise typer.Exit(1)
-            raise typer.Abort(e)
+        os.makedirs(p, exist_ok=True)  # allow to overwrite
 
         # create files
         self.render_templates(

@@ -68,6 +68,12 @@ tasks:
       - ruff . --fix
     ignore_error: true
 
+  fmt:fix:
+    aliases: [ "ff" ]
+    cmds:
+      - ruff . --fix --unsafe-fixes
+    ignore_error: true
+
   fmt2:
     aliases: [ "f2" ]
     cmds:
