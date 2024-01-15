@@ -81,3 +81,18 @@ tasks:
   init:env:
     cmds:
       - cp .env.local .env
+
+
+  pdm:config:
+    cmds:
+      - pdm config venv.backend venv -l # set env backend
+
+  pdm:venv:activate:
+    aliases: [ "venv" ]
+    cmds:
+      - pdm venv activate
+
+  # ref: https://pdm-project.org/latest/usage/venv/#activate-a-virtualenv
+  pdm:init:
+    cmds:
+      - eval (pdm venv activate)
