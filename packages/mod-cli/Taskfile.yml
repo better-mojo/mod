@@ -10,6 +10,7 @@ vars:
 env:
   ENV1: testing
   DEBUG: 'true' #false
+  LOGURU_LEVEL: 'INFO' # DEBUG; INFO; WARNING; ERROR; CRITICAL
 
 
 ################################################################################################

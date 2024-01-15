@@ -1,0 +1,26 @@
+[project]
+name = "mod"
+version = "0.1.2"
+description = "mojo package manager."
+authors = [
+    { name = "Henry.Huang", email = "hhglory@outlook.com" },
+]
+dependencies = []
+requires-python = ">=3.12"
+readme = "README.md"
+license = { text = "MIT" }
+
+
+#
+# monorepo
+#
+[tool.pdm.dev-dependencies]
+dev = [
+    "-e file:///${PROJECT_ROOT}/packages/mod-cli",
+    "-e file:///${PROJECT_ROOT}/packages/mod-core",
+]
+
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"

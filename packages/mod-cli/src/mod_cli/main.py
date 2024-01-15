@@ -1,8 +1,10 @@
 import environs
+from loguru import logger
 
 from mod_cli.commands import app
 
 
+@logger.catch
 def run_app():
     env = environs.Env()
     debug = env.bool("DEBUG", False)

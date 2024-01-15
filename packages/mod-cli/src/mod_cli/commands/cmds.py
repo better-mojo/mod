@@ -213,8 +213,6 @@ def add_dep(
         ),
     ] = None,
 ):
-    typer.echo("Add a package to dependencies")
-
     typer.echo(
         f"input args: {package_path}, name: {package_name}, dev: {is_dev}, v: {version}, branch: {branch}"
     )
@@ -224,6 +222,9 @@ def add_dep(
         typer.echo(f"Add {package_path} to dependencies")
 
     h = PackageHelper()
+    if not h.is_mod_file_exists():
+        typer.echo("mod.toml not found in current directory")
+        raise typer.Abort()
     h.add_many(
         packages=package_path,
         package_name=package_name,

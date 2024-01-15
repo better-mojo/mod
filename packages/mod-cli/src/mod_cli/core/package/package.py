@@ -22,9 +22,15 @@ class PackageHelper:
         # init
         self.setup()
 
+    def is_mod_file_exists(self):
+        fp = Path(os.getcwd()) / self.MOD_FILE
+        return fp.exists()
+
     def setup(self):
         # init
-        self.read_mod_toml()
+        ok = self.read_mod_toml()
+        if not ok:
+            return False
 
         # logger.debug(f"mod.toml: {self.mod_toml}")
         # logger.debug(f"packages: {type(self.packages)}, {self.packages}")
@@ -35,12 +41,9 @@ class PackageHelper:
             self.GLOBAL_CACHE_DIR.mkdir(parents=True)
 
     def read_mod_toml(self):
+        if not self.is_mod_file_exists():
+            return False
         f_mod = Path(os.getcwd()) / self.MOD_FILE
-
-        if not f_mod.exists():
-            logger.error(f"mod.toml not found: {f_mod}")
-            print("mod.toml not found in current directory")
-            return None
 
         with open(f_mod) as f:
             data = tomlkit.load(f)
