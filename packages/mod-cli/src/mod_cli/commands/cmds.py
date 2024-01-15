@@ -3,6 +3,7 @@ from enum import Enum
 from pathlib import Path
 from typing import (
     Annotated,
+    Optional,
 )
 
 import typer
@@ -46,7 +47,7 @@ app.add_typer(cmd_workspace, name="workspace", rich_help_panel=AppPanelType.proj
 @app.callback(invoke_without_command=True)
 def main(
     h: Annotated[
-        bool | None,
+        Optional[bool],  # fix
         typer.Option(
             "--help",
             "-h",
@@ -54,7 +55,7 @@ def main(
         ),
     ] = False,
     version: Annotated[
-        bool | None,
+        Optional[bool],  # fix
         typer.Option(
             "--version",
             "-v",
@@ -183,14 +184,14 @@ def add_dep(
         ),
     ] = None,
     package_name: Annotated[
-        str | None,
+        Optional[str],
         typer.Option(
             metavar="PACKAGE_NAME",
             help="the name of the package to add",
         ),
     ] = None,
     is_dev: Annotated[
-        bool | None,
+        Optional[bool],
         typer.Option(
             "--dev",
             "-d",
@@ -198,14 +199,14 @@ def add_dep(
         ),
     ] = False,
     version: Annotated[
-        str | None,
+        Optional[str],  # todo x: fix this
         typer.Option(
             "--version",
             help="The version of the package to add",
         ),
     ] = None,
     branch: Annotated[
-        str | None,
+        Optional[str],  # fix
         typer.Option(
             "--branch",
             help="The branch of the package to add",

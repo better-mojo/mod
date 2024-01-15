@@ -9,6 +9,7 @@ vars:
 # global env:
 env:
   ENV1: testing
+  DEBUG: 'true' #false
 
 
 ################################################################################################
@@ -18,7 +19,7 @@ tasks:
     aliases: [ "r" ]
     cmds:
       - echo "{{.SRC_DIR}}"
-      - poetry run python3 main.py {{.CLI_ARGS}} # LOGURU_LEVEL=ERROR
+      - poetry run python3 main.py {{.CLI_ARGS}} # LOGURU_LEVEL=ERROR; export DEBUG=TRUE;
     dir: src/mod_cli
 
   run:all:
@@ -45,6 +46,15 @@ tasks:
     aliases: [ "i" ]
     cmds:
       - poetry install
+
+  install:dev:
+    aliases: [ "id" ]
+    cmds:
+      - poetry install --with=dev
+
+  clean:
+    cmds:
+      - rm -rf .venv
 
   build:
     aliases: [ "b" ]
